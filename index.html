@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PANDIT JI- VIP iOS EDITION</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #000000; --card: #151517; --accent: #007AFF; /* iOS Blue */
+            --cyan: #00e5ff; --purple: #a855f7; 
+            --text-main: #ffffff; --text-dim: #98989d;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; }
+
+        /* --- iOS STYLE LOGIN PAGE --- */
+        #login-page {
+            position: fixed; inset: 0; z-index: 10002; 
+            background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') center/cover;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+        }
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 30px;
+            padding: 40px 25px; width: 100%; max-width: 380px; text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .apple-logo-box {
+            width: 70px; height: 70px; background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 20px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 35px; color: white; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .login-heading { font-size: 26px; font-weight: 800; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .login-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 30px; }
+
+        .ios-input {
+            width: 100%; padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05); color: white; margin-bottom: 15px; 
+            font-size: 16px; outline: none; transition: 0.3s;
+        }
+        .ios-input:focus { border-color: var(--cyan); background: rgba(255,255,255,0.1); }
+        
+        .ios-btn {
+            width: 100%; padding: 18px; border-radius: 16px; border: none; 
+            background: var(--text-main); color: black; font-weight: 800; cursor: pointer; 
+            font-size: 16px; transition: 0.3s;
+        }
+        .ios-btn:active { transform: scale(0.96); }
+
+        .telegram-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 16px; border-radius: 16px; border: 1px solid #0088cc;
+            background: rgba(0, 136, 204, 0.1); color: #00e5ff; font-weight: 700;
+            text-decoration: none; margin-top: 15px; font-size: 15px;
+        }
+
+        /* --- DASHBOARD --- */
+        #app-container { display: none; height: 100vh; flex-direction: column; background: var(--bg); }
+        .scroll-view { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; }
+        
+        /* AI Mode Buttons from Image */
+        .ai-modes-container { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .ai-mode-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            padding: 15px; border-radius: 40px; color: white; font-weight: 600; font-size: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s; cursor: pointer;
+        }
+        .ai-mode-btn.active {
+            background: linear-gradient(90deg, #a855f7, #00e5ff);
+            border-color: transparent; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+        }
+
+        .ai-hero {
+            background: var(--card); border-radius: 24px; padding: 25px;
+            margin-top: 20px; border: 1px solid var(--border);
+        }
+
+        .ai-val-box { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; }
+        .ai-result-text { font-size: 45px; font-weight: 800; color: var(--cyan); }
+        .ai-number-badge { 
+            width: 55px; height: 55px; background: rgba(255,255,255,0.1); 
+            border-radius: 16px; display: flex; align-items: center; justify-content: center; 
+            font-size: 26px; font-weight: 800; border: 1px solid var(--border);
+        }
+
+        .history-item { 
+            background: var(--card); border: 1px solid var(--border); 
+            border-radius: 16px; padding: 15px; margin-bottom: 10px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="glass-panel">
+            <div class="apple-logo-box"><i class="ri-robot-2-fill"></i></div>
+            <h1 class="login-heading">Pandit ji </h1>
+            <p class="login-sub">Advanced AI Sequence Analysis</p>
+            
+            <input type="password" id="passkey" class="ios-input" placeholder="Enter VIP Key">
+            <button class="ios-btn" onclick="checkAuth()">Login to System</button>
+            
+            <a href="https://t.me/FOUND301REDIRECT" target="_blank" class="telegram-btn">
+                <i class="ri-telegram-fill" style="font-size: 20px;"></i> Join Official Channel
+            </a>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 20px;">100% Deterministic Algorithm Engine</p>
+        </div>
+    </div>
+
+    <div id="app-container">
+        <div class="scroll-view">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3 style="font-size:22px; font-weight:800;">Pandit ji </h3>
+                    <p style="font-size:12px; color:var(--text-dim);">Live API Connected</p>
+                </div>
+                <div style="padding: 10px 18px; background: var(--card); border:1px solid var(--border); border-radius:14px; color:var(--cyan); font-weight:800;" id="timer">00:60</div>
+            </div>
+
+            <div class="ai-modes-container">
+                <div class="ai-mode-btn active" onclick="setMode(this, 1)">🧠 Neural Network</div>
+                <div class="ai-mode-btn" onclick="setMode(this, 2)"> Deep Learning</div>
+                <div class="ai-mode-btn" onclick="setMode(this, 3)"> Quantum AI</div>
+                <div class="ai-mode-btn" onclick="setMode(this, 4)"> Hybrid Model</div>
+            </div>
+
+            <div class="ai-hero">
+                <p style="font-size:11px; font-weight:700; color:var(--text-dim); text-transform:uppercase;">0% Random Prediction</p>
+                <div class="ai-val-box">
+                    <h1 class="ai-result-text" id="ai-res">WAIT</h1>
+                    <div class="ai-number-badge" id="ai-num">-</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600;">
+                    <span style="color:var(--text-dim);">Period: <span id="period-id" style="color:white;">---</span></span>
+                    <span style="color:#00ff66;">● Server Sync</span>
+                </div>
+            </div>
+
+            <h4 style="margin: 25px 0 15px; font-size:18px;">Live Server Tracker</h4>
+            <div id="hist-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const KEY = "Pandit ji"; // Yahan apna password set karo
+        let lastP = ""; let currentPred = ""; let predictedNum = 0;
+        let aiMultiplier = 1; // Used in logic calculation
+
+        function checkAuth() {
+            if(document.getElementById('passkey').value.trim() === KEY) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('app-container').style.display = 'flex';
+                sync(); setInterval(sync, 1000);
+            } else { 
+                alert("Incorrect VIP Key!"); 
+            }
+        }
+
+        // Mode Switcher function
+        function setMode(element, modeValue) {
+            document.querySelectorAll('.ai-mode-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            aiMultiplier = modeValue; // Changes the mathematical formula slightly
+        }
+
+        async function sync() {
+            let s = 60 - new Date().getSeconds();
+            document.getElementById('timer').innerText = `00:${s < 10 ? '0'+s : s}`;
+            
+            try {
+                const r = await fetch("https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json");
+                const d = await r.json();
+                const latest = d.data.list[0];
+
+                if(lastP !== latest.issueNumber) {
+                    if(currentPred !== "" && lastP !== "") {
+                        const num = parseInt(latest.number);
+                        const actualSz = num >= 5 ? "BIG" : "SMALL";
+                        addHistory(latest.issueNumber, num, actualSz, currentPred === actualSz);
+                    }
+                    lastP = latest.issueNumber;
+                    calculateZeroRandomLogic(d.data.list); // Calling the 0% random function
+                }
+            } catch(e) { console.log("API Busy..."); }
+        }
+
+        // --- 100% DETERMINISTIC LOGIC (0% RANDOM) ---
+        function calculateZeroRandomLogic(list) {
+            // Hum past 5 results ko analyze karenge ek fixed mathematical formula ke sath.
+            // Isme Math.random() ka use bilkul nahi hua hai.
+            const last5 = list.slice(0, 5).map(x => parseInt(x.number));
+            const sum = last5.reduce((a, b) => a + b, 0);
+            const trendModifier = parseInt(list[0].number) - parseInt(list[1].number);
+
+            // Calculation Logic based on selected AI Mode and Past Trends
+            let formula = Math.abs((sum * aiMultiplier) + trendModifier);
+            
+            // Getting a single digit from the formula
+            predictedNum = formula % 10; 
+            
+            // Final Decision
+            currentPred = (predictedNum >= 5) ? "BIG" : "SMALL";
+            
+            // Updating UI
+            const nextID = BigInt(lastP) + 1n;
+            document.getElementById('period-id').innerText = nextID.toString();
+            document.getElementById('ai-res').innerText = currentPred;
+            document.getElementById('ai-res').style.color = currentPred === "BIG" ? "#a855f7" : "#00e5ff";
+            document.getElementById('ai-num').innerText = predictedNum;
+        }
+
+        function addHistory(id, num, sz, win) {
+            let color = (num % 2 === 0) ? '#ff4d4d' : '#00e5ff';
+            if(num === 0 || num === 5) color = '#a855f7';
+            
+            const html = `
+                <div class="history-item">
+                    <div>
+                        <p style="font-size:13px; font-weight:700; color:var(--text-dim);">Period ${id.slice(-4)}</p>
+                        <p style="font-size:14px; font-weight:800; color:${win?'#00ff66':'#ff4d4d'};">${win?'PROFIT ✓':'RECOVER'}</p>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="font-size:22px; font-weight:800; color:white;">${num}</span>
+                        <span style="font-size:11px; margin-left:8px; padding:4px 8px; background:rgba(255,255,255,0.1); border:1px solid ${color}; color:${color}; border-radius:8px; font-weight:800;">${sz}</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('hist-container').insertAdjacentHTML('afterbegin', html);
+        }
+    </script>
+</body>
+                    </html>
+                    
